@@ -2,6 +2,8 @@ import express from "express";
 import db from "./db.js";
 
 const app = express();
+const PORT = process.env.PORT || 3000;
+
 app.use(express.json());
 
 app.get("/users", async (req, res) => {
@@ -28,6 +30,6 @@ app.post("/addUser", async (req, res) => {
     res.status(201).json(newUser);
 });
 
-app.listen(3000, () => {
-    console.log("API running on http://localhost:3000");
+app.listen(PORT, () => {
+    console.log(`Server ready! Listening on port ${PORT}`);
 });
