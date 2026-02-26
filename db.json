@@ -1,0 +1,20 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "A",
+      "ActivityName": "Clickedu",
+      "ActivityDescription": "Desc",
+      "ActivityType": "Type",
+      "ActivityImage": "https://play-lh.googleusercontent.com/dZe4tU5HW3zWFT01e65bDYYljvBxEvITmZC2CU-eHM1ts5ASGFyLTGgpz3-W9c2o0tE-"
+    },
+    {
+      "id": 2,
+      "name": "ABC",
+      "ActivityName": "Clickedu",
+      "ActivityDescription": "Desc",
+      "ActivityType": "Type",
+      "ActivityImage": "https://play-lh.googleusercontent.com/dZe4tU5HW3zWFT01e65bDYYljvBxEvITmZC2CU-eHM1ts5ASGFyLTGgpz3-W9c2o0tE-"
+    }
+  ]
+}
