@@ -4,7 +4,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "build": "echo 'Build complete'"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "lowdb": "^7.0.1"
   },
   "devDependencies": {
-    "eslint": "^10.0.2"
+    "eslint": "^10.0.2",
+    "vercel": "^50.32.5"
   }
 }
