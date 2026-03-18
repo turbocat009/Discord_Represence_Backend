@@ -129,12 +129,12 @@ app.post("/modifyUser", modifyUserLimiter, async (req, res) => {
       return res.status(400).json({ error: "Invalid acttype" });
 
     const updates = {
-      ...(name && { name: name.trim() }),
-      ...(actname && { actname: actname.trim() }),
-      ...(actdesc && { actdesc: actdesc.trim() }),
-      ...(acttype && { acttype: acttype.trim() }),
-      ...(actimg && { actimg: actimg.trim() }),
-      updatedat: new Date().toISOString()
+      ...(name && { username: name.trim() }),
+      ...(actname && { activity_name: actname.trim() }),
+      ...(actdesc && { activity_desc: actdesc.trim() }),
+      ...(acttype && { activity_type: acttype.trim() }),
+      ...(actimg && { activity_img: actimg.trim() }),
+      updated_at: new Date().toISOString()
     };
 
     const { data, error } = await supabase
