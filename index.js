@@ -20,7 +20,7 @@ app.get("/users", async (req, res) => {
     const { data, error } = await supabase
       .from("users")
       .select("*")
-      .eq("id", 1)
+      .eq("id", discordID)
       .single();
 
     if (error && error.code !== "PGRST116") {
