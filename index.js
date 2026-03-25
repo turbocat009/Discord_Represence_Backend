@@ -2,6 +2,7 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import { createClient } from "@supabase/supabase-js";
 import "dotenv/config";
+import multer from 'multer'
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,7 +14,32 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY
 );
 
+const upload = multer({
+  storage: multer.memoryStorage()
+})
+
 app.get("/users", async (req, res) => {
+  try {
+    const { discordID } = req.query;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", discordID)
+      .single();
+
+    if (error && error.code !== "PGRST116") {
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.json(data || null);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+app.get("/getImg", async (req, res) => {
   try {
     const { discordID } = req.query;
 
@@ -105,6 +131,45 @@ app.post("/addUser", addUserLimiter, async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+app.post("/addImg", addUserLimiter, upload.single('file'), async (req, res) => {
+  try {
+    const file = req.file;
+    const { discordID } = req.body;
+
+    if (!file) {
+      return res.status(400).json({ error: 'No uploaded' })
+    }
+
+    const fileName = `${discordID}`
+
+    await supabase.storage.from('images').remove([fileName])
+
+    const { data, error } = await supabase.storage
+      .from('images')
+      .upload(fileName, file.buffer, {
+        contentType: file.mimetype,
+        cacheControl: 'no-cache, no-store, must-revalidate',
+        upsert: true
+      })
+
+    if (error) throw error
+
+    const { data: publicUrlData } = supabase.storage
+      .from('images')
+      .getPublicUrl(fileName)
+
+    res.json({
+      message: 'Upload successful',
+      path: data.path,
+      url: publicUrlData.publicUrl
+    })
+
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+});
+
 
 
 app.post("/modifyUser", modifyUserLimiter, async (req, res) => {
